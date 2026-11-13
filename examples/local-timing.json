@@ -1,0 +1,9 @@
+{
+  "batch_size": 10,
+  "clock": "perf_counter_ns",
+  "max_ms": 4.223,
+  "p95_ms": 3.181,
+  "scope": "local SQLite wall time, includes full target readback",
+  "submitted_mutations": 1000,
+  "visible_versions": 1000
+}

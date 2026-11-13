@@ -1,0 +1,62 @@
+trigger: none
+pr: none
+
+parameters:
+- name: deploy
+  type: boolean
+  default: false
+- name: serviceConnection
+  type: string
+  default: UNCONFIGURED
+
+stages:
+- stage: Verify
+  jobs:
+  - job: Offline
+    pool: { vmImage: ubuntu-latest }
+    steps:
+    - checkout: self
+    - bash: |
+        set -eu
+        python3 -m unittest discover -s tests -v
+        az bicep install --version v0.46.1
+        python3 infra/check_parameters.py --bicep "$HOME/.azure/bin/bicep"
+      displayName: Check pipeline and compile Azure target
+
+- ${{ if eq(parameters.deploy, true) }}:
+  - stage: Review
+    dependsOn: Verify
+    variables:
+    - group: inventory-approved-lab
+    jobs:
+    - job: Preview
+      pool: { vmImage: ubuntu-latest }
+      steps:
+      - checkout: self
+      - task: AzureCLI@2
+        displayName: Preview approved dev resources with ARM what-if
+        inputs:
+          azureSubscription: ${{ parameters.serviceConnection }}
+          scriptType: bash
+          scriptLocation: inlineScript
+          inlineScript: python3 infra/approved_deployment.py what-if
+  - stage: Apply
+    dependsOn: Review
+    variables:
+    - group: inventory-approved-lab
+    jobs:
+    - deployment: InventoryResourceGroup
+      environment: inventory-lab-approved
+      pool: { vmImage: ubuntu-latest }
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+            - checkout: self
+            - task: AzureCLI@2
+              displayName: Apply reviewed resource group resources
+              inputs:
+                azureSubscription: ${{ parameters.serviceConnection }}
+                scriptType: bash
+                scriptLocation: inlineScript
+                inlineScript: python3 infra/approved_deployment.py create

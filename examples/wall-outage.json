@@ -1,0 +1,35 @@
+{
+  "environment": "real elapsed local Python/SQLite producer and restarted consumer; single machine",
+  "source_revision": "e3611cb77542f6c77a90295054c3249db774d472",
+  "started_utc": "2026-11-13T22:06:39.095611+00:00",
+  "requested_outage_seconds": 600,
+  "consumer_closed_seconds": 600.016432,
+  "scheduled_interval_seconds": 1,
+  "producer_commits_during_outage": 600,
+  "outage_soft_delete_writes": 4,
+  "seed_keys": 1000,
+  "final_keys": 1000,
+  "final_tombstones": 4,
+  "verified_updated_keys": 478,
+  "full_image_mismatches": 0,
+  "checkpoints_unchanged_during_outage": true,
+  "all_checkpoints_caught_up": true,
+  "consumer_reopen_and_drain_ms": 10.288,
+  "p95_first_read_upper_bound_ms": 563019.071,
+  "restart_decisions": {
+    "applied": 478,
+    "duplicate": 0,
+    "stale": 0,
+    "quarantined": 0,
+    "coalesced": 122
+  },
+  "full_state_sha256": "fe1d3ea4382188ece1e9a33431a923293084d6230847da2244aede93d6604e27",
+  "cloud_deployed": false,
+  "observations_sha256": "313d6f720f9dc5cf6085e1bcc747f1c0a89b4abca3143c2ddfdd0e7093c731cb",
+  "observed_producer_pacing": {
+    "first_submit_ms": 0,
+    "last_submit_ms": 599002,
+    "max_inter_submit_gap_ms": 1010,
+    "max_scheduled_submit_delay_ms": 10
+  }
+}

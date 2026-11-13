@@ -1,0 +1,25 @@
+{
+  "at_recovery": {
+    "applied_versions": 477,
+    "mismatches": 0
+  },
+  "coverage": "synthetic inventory workload on a simulated clock",
+  "final_products": 1000,
+  "final_state_mismatches": 0,
+  "final_tombstones": 67,
+  "mutations": 10000,
+  "normal_visible_versions": 9307,
+  "outage_duration_seconds": 600,
+  "outage_mutations": 600,
+  "outage_soft_deletes": 4,
+  "poll_interval_ms": 15000,
+  "replay_checks": 2,
+  "seed_products": 1000,
+  "simulated_max_lag_ms": 614000,
+  "simulated_p95_including_recovery_ms": 14000,
+  "simulated_p95_normal_ms": 14000,
+  "sqlite_integrity": "ok",
+  "tenants": 3,
+  "visible_mutation_versions": 9784,
+  "visible_versions_over_60s": 416
+}

@@ -1,0 +1,16 @@
+**
+!azure/
+!azure/*/
+!azure/functions/*.py
+!azure/functions/requirements.txt
+!azure/functions/host.json
+!azure/job/produce.py
+!azure/job/requirements.txt
+!azure/shared/*.py
+!azure/shared/install_odbc.sh
+!azure/web/*.py
+!azure/web/requirements.txt
+!data/
+!data/workload.jsonl
+!third_party/
+!third_party/CosmosConf26QueryDemos-LICENSE.txt

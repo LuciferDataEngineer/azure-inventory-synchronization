@@ -1,0 +1,50 @@
+name: Inventory checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    strategy:
+      matrix:
+        python: ['3.12', '3.14']
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -W error::ResourceWarning -m unittest discover -s tests -v
+  evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        with:
+          python-version: '3.12'
+      - name: Reconcile current state against a fresh pinned catalog
+        run: |
+          mkdir -p data
+          python inventory_demo.py export --output data/workload.jsonl
+          python inventory_demo.py drill --db data/drill.sqlite > data/drill.json
+          diff -u examples/drill.json data/drill.json
+          python verify_projection.py data/drill.sqlite data/workload.jsonl > data/reconciliation.json
+          diff -u examples/reconciliation.json data/reconciliation.json
+      - name: Compile the Azure target offline
+        run: |
+          az bicep install --version v0.46.1
+          python infra/check_parameters.py --bicep "$HOME/.azure/bin/bicep"
+  adapters:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        with:
+          python-version: '3.12'
+      - name: Verify offline SDK contracts
+        run: |
+          python -m pip install -r azure/functions/requirements.txt -r azure/job/requirements.txt -r azure/web/requirements.txt
+          python -m pip check
+          python -m unittest discover -s integration -p test_adapters.py -v
