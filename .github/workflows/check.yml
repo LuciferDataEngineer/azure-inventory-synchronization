@@ -38,11 +38,14 @@ jobs:
   adapters:
     runs-on: ubuntu-latest
     timeout-minutes: 8
+    strategy:
+      matrix:
+        python: ['3.12', '3.14']
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
         with:
-          python-version: '3.12'
+          python-version: ${{ matrix.python }}
       - name: Verify offline SDK contracts
         run: |
           python -m pip install -r azure/functions/requirements.txt -r azure/job/requirements.txt -r azure/web/requirements.txt

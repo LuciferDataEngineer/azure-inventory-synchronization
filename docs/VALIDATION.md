@@ -49,3 +49,7 @@ Bicep CLI 0.46.1 compiled the template and development parameters with fixture v
 ## Ten-minute outage on the local wall clock
 
 In a separate run the consumer connection stayed closed for **600.016432 elapsed seconds** while a producer committed 600 individual updates, including four soft deletes. The maximum gap between submission starts was 1.010 seconds. Reopening and draining took 10.288 ms. All three cursors caught up and all 1,000 final product images matched the independent source fold. Of the 600 writes, 478 latest versions were applied and 122 coalesced. Among the 478 keys read after recovery, p95 time from submission to first independent verification was bounded above by 563.019 seconds. That clock includes the outage. [Run instructions](WALL_OUTAGE.md) · [Measured receipt](../examples/wall-outage.json)
+
+## Publication verification on 18 November 2026
+
+A fresh pinned public-source acquisition reproduced the 11,000-line workload and both committed reconciliation reports. All 1,000 product images matched. The initial GitHub adapter check found an incompatible Functions SDK pin for Python 3.12. Compatible per-runtime pins and a two-version adapter CI matrix corrected it. Isolated local Python 3.12.16 and 3.14.7 environments each passed the same 11 adapter tests, and Python 3.12.16 passed the 25 core tests. The distinct test count remains 36. [SDK compatibility details](SDK_CHECKS.md)

@@ -1,4 +1,5 @@
-azure-functions==2.4.0
+azure-functions==1.26.0; python_version < "3.13"
+azure-functions==2.4.0; python_version >= "3.13"
 azure-identity==1.27.0
 azure-storage-blob==12.31.1
 pyodbc==5.5.0
